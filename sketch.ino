@@ -5,28 +5,46 @@
 #define DEBUG_UART 19
 #define DEBUG_TIMER 21
 
+/// Flag set when button interrupt occurs
 volatile bool buttonFlag = false;
+
+/// Flag set when timer interrupt occurs
 volatile bool timerFlag = false;
+
+/// Flag set when UART data is received
 volatile bool uartFlag = false;
 
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
 
+/// Stores the type of interrupt that occurred
 String interrupt = "";
 
+/// Hardware timer pointer
 hw_timer_t *timer = NULL;
 
+/// Current LED state
 bool ledState = false;
 
+/// Stores received UART string
 String uartString = "";
 
+/**
+ * @brief Interrupt service routine for button press
+ */
 void IRAM_ATTR buttonISR(){
   buttonFlag = true;
 }
 
+/**
+ * @brief Timer interrupt handler
+ */
 void IRAM_ATTR onTimer(){
   timerFlag = true;
 }
 
+/**
+ * @brief Toggles the LED twice (on/off quickly)
+ */
 void toggleLED(){
   ledState = !ledState;
   digitalWrite(LED_PIN, ledState);
@@ -34,6 +52,9 @@ void toggleLED(){
   digitalWrite(LED_PIN, ledState);
 }
 
+/**
+ * @brief Initializes serial communication, pins and interrupts
+ */
 void setup(){
   Serial.begin(115200);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -50,13 +71,18 @@ void setup(){
 
 }
 
+/**
+ * @brief Main loop that processes interrupts and UART input
+ */
 void loop(){
   
+  // Check for UART input
   if(Serial.available()){
     uartString = Serial.readStringUntil('\n');
     uartFlag = true;
   }
 
+// Handle button interrupt - highest priority interrupt
   if(buttonFlag){
    digitalWrite(DEBUG_BUTTON, HIGH);
 
@@ -70,6 +96,7 @@ void loop(){
     toggleLED();
     digitalWrite(DEBUG_BUTTON, LOW);
   }
+  // Handle button interrupt - second highest priority interrupt
   else if(uartFlag){
     digitalWrite(DEBUG_UART, HIGH);
     uartFlag = false;
@@ -83,6 +110,7 @@ void loop(){
     toggleLED();
     digitalWrite(DEBUG_UART, LOW);
   }
+  // Handle button interrupt - lowest priority interrupt
   else if(timerFlag){
     digitalWrite(DEBUG_TIMER, HIGH);
     timerFlag = false;
