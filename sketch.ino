@@ -5,6 +5,22 @@
 #define DEBUG_UART 19
 #define DEBUG_TIMER 21
 
+/**
+ * @mainpage Project Documentation
+ *
+ * @section intro Introduction
+ * This project demonstrates interrupt handling using:
+ * - Button interrupt
+ * - UART interrupt
+ * - Timer interrupt
+ *
+ * @section sim Simulation
+ * Wokwi simulations and waveform results are available in:
+ * - wokwi/tests/wokwi-logic.vcd
+ *
+ * These results verify correct system behavior.
+ */
+
 /// Flag set when button interrupt occurs
 volatile bool buttonFlag = false;
 
