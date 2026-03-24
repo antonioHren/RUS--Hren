@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #define BUTTON_PIN 4
 #define LED_PIN 2
+#define DEBUG_BUTTON 18
+#define DEBUG_UART 19
+#define DEBUG_TIMER 21
 
 volatile bool buttonFlag = false;
 volatile bool timerFlag = false;
@@ -37,6 +40,10 @@ void setup(){
   pinMode(LED_PIN, OUTPUT);
   attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonISR, FALLING );
 
+  pinMode(DEBUG_BUTTON, OUTPUT);
+  pinMode(DEBUG_UART, OUTPUT);
+  pinMode(DEBUG_TIMER, OUTPUT);
+
   timer = timerBegin(1000000);
   timerAttachInterrupt(timer, &onTimer);
   timerAlarm(timer, 1000000, true, 0);
@@ -51,6 +58,8 @@ void loop(){
   }
 
   if(buttonFlag){
+   digitalWrite(DEBUG_BUTTON, HIGH);
+
     buttonFlag = false;
 
     portENTER_CRITICAL(&mux);
@@ -59,8 +68,10 @@ void loop(){
 
     Serial.println(interrupt);
     toggleLED();
+    digitalWrite(DEBUG_BUTTON, LOW);
   }
   else if(uartFlag){
+    digitalWrite(DEBUG_UART, HIGH);
     uartFlag = false;
 
     portENTER_CRITICAL(&mux);
@@ -70,8 +81,10 @@ void loop(){
     Serial.println(interrupt);
     Serial.println(uartString);
     toggleLED();
+    digitalWrite(DEBUG_UART, LOW);
   }
   else if(timerFlag){
+    digitalWrite(DEBUG_TIMER, HIGH);
     timerFlag = false;
 
     portENTER_CRITICAL(&mux);
@@ -80,5 +93,6 @@ void loop(){
 
     Serial.println(interrupt);
     toggleLED();
+    digitalWrite(DEBUG_TIMER, LOW);
   }
 }

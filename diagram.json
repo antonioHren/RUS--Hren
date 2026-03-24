@@ -11,7 +11,8 @@
       "left": 153.6,
       "attrs": { "color": "green", "xray": "1" }
     },
-    { "type": "wokwi-led", "id": "led1", "top": 102, "left": 147.8, "attrs": { "color": "red" } }
+    { "type": "wokwi-led", "id": "led1", "top": 102, "left": 147.8, "attrs": { "color": "red" } },
+    { "type": "wokwi-logic-analyzer", "id": "logic1", "top": 38.75, "left": 278.4, "attrs": {} }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
@@ -19,7 +20,11 @@
     [ "btn1:1.l", "esp:GND.3", "green", [ "h0" ] ],
     [ "btn1:2.l", "esp:4", "green", [ "h0" ] ],
     [ "led1:C", "esp:GND.3", "green", [ "v0" ] ],
-    [ "led1:A", "esp:2", "green", [ "v0" ] ]
+    [ "led1:A", "esp:2", "green", [ "v0" ] ],
+    [ "logic1:D0", "esp:18", "green", [ "h0" ] ],
+    [ "logic1:D1", "esp:19", "green", [ "h0" ] ],
+    [ "logic1:D2", "esp:21", "green", [ "h0" ] ],
+    [ "logic1:GND", "esp:GND.3", "black", [ "h0" ] ]
   ],
   "dependencies": {}
 }
