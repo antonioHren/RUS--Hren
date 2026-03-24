@@ -33,6 +33,7 @@ Example snippet:
 0!
 
 This means:
+- "!" sign represents a button interrupt, the """ sign represents UART interrupt and "#" represents the timer interrupt
 - At time 0 ns, signal `D0` was HIGH
 - Other signals were LOW
 - At later timestamps, signals change state, indicating events in the simulation
