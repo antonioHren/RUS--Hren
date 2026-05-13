@@ -46,3 +46,5 @@ Trajanje:
 2500 / 4.01 ≈ 623 sata
 
 ≈ 26 dana
+
+Zaključak: Implementacija prikazuje logiku upravljanja energijom, ali ne omogućuje stvarnu procjenu potrošnje energije.
